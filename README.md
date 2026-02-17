@@ -1,58 +1,127 @@
-# CFD-analysis-report
+# CFD Study – Multi-Element Rear Wing (2D Steady RANS, k-ω SST)
 
-CFD Analysis Report: Multi-Element Rear Wing Profile (2D)
-Case Study: High-Downforce Multi-Element Airfoil (Main Plane + 2 Flaps) Solver: RANS (Reynolds-Averaged Navier-Stokes) Turbulence Model: k-omega SST
+## Objective
 
-1. Pressure Distribution Analysis
+This study evaluates the aerodynamic behavior of a 3-element high-downforce rear wing configuration (Main Plane + 2 Flaps) under 2D steady RANS conditions.
+
+The goal is to analyze pressure distribution, boundary layer behavior, slot-gap effectiveness, and separation mechanisms through iterative geometric refinement.
+
+---
+
+## Numerical Setup
+
+Solver: Steady RANS  
+Turbulence Model: k-ω SST (selected for separation sensitivity)  
+Dimensionality: 2D  
+
+### Boundary Conditions
+- Inlet: Uniform velocity profile
+- Outlet: Pressure outlet (0 Pa gauge)
+- Airfoil surfaces: No-slip wall condition
+- Far-field domain extended to reduce blockage effects
+
+Note: This study focuses on qualitative aerodynamic behavior and flow physics. 
+Reynolds number and aerodynamic coefficients (Cl, Cd) will be incorporated in future iterations for quantitative validation.
+
+---
+
+# Iteration v1 – Baseline Configuration
+
+## Pressure Distribution
+
+The static pressure contour demonstrates a clear distinction between:
+
+- Pressure side (concave surface) → high static pressure  
+- Suction side (convex surface) → strong negative pressure peak  
+
+Stagnation points are visible at the leading edges of all three elements, confirming effective load transfer.
+
+The suction peaks indicate strong circulation and high downforce generation.
+
+However, steep adverse pressure gradients are observed toward the trailing edge of the final flap.
+
+---
+
+## Turbulence & Flow Separation (Kinematic Viscosity / TKE)
+
+The turbulence field reveals localized separation near the most aggressively loaded flap.
+
+Key Observations:
+
+- Wake expansion behind the final element
+- Increased turbulent kinetic energy in shear layer region
+- Partial loss of flow attachment
+
+Despite this, the main plane remains largely attached.
+
+### Aerodynamic Interpretation
+
+The configuration operates near its aerodynamic loading limit.
+
+The slot-gap mechanism is still partially effective in re-energizing the boundary layer, allowing downstream elements to contribute to lift.
+
+This iteration produces high downforce but with increasing induced drag.
+
+---
+
+# Iteration v2 – Gap & Incidence Adjustment
+
+Modifications:
+- Adjusted slot-gap geometry
+- Modified element incidence angle
+
+---
+
+## Flow Field Analysis (TKE)
+
+In the second iteration, separation initiates at the suction side of the main plane.
+
+This is a critical aerodynamic failure mode in multi-element airfoils.
+
+Once upstream separation occurs:
+
+- Slot acceleration becomes ineffective
+- Downstream flaps operate in low-momentum wake flow
+- Lift contribution from secondary elements collapses
+- Pressure drag increases significantly
+
+The turbulent kinetic energy contour confirms a large separated shear layer enveloping the entire rear assembly.
+
+---
+
+# Root Cause Diagnosis
+
+The main element camber/incidence combination generates an adverse pressure gradient exceeding the boundary layer momentum capacity under the given setup.
+
+Multi-element wings rely on attached flow on the primary element.
+
+If the main plane detaches:
+
+- The slot no longer injects high-energy flow
+- Downstream aerodynamic synergy is lost
+- Overall efficiency drops sharply
+
+---
+
+# Engineering Strategy for Next Iteration (v3)
+
+1. Reduce main plane incidence to ensure upstream flow attachment.
+2. Re-optimize slot-gap spacing to enhance local acceleration.
+3. Perform mesh refinement in shear layer regions.
+4. Introduce aerodynamic coefficient extraction (Cl, Cd, L/D).
+5. Validate solution sensitivity to Reynolds number.
+
+---
+
+# Skills Demonstrated
+
+- 2D Steady RANS CFD setup
+- k-ω SST turbulence modeling
+- Multi-element airfoil interaction analysis
+- Boundary layer separation diagnosis
+- Iterative aerodynamic reasoning
+- Physics-driven design refinement
+
 <img width="1260" height="425" alt="Screenshot 2026-02-02 151451" src="https://github.com/user-attachments/assets/e51b3474-21c3-4fcc-96c8-69ee800ab045" />
-
-Observation: The static pressure contour demonstrates a clear distinction between the pressure side (concave surface, High P approximately 6.8e4 Pa) and the suction side (convex surface, Low P approximately -76k Pa).
-
-Physics: Strong stagnation points are visible at the leading edges of all three elements. The pressure recovery towards the trailing edge suggests high load generation, characteristic of a high-downforce F1-style setup.
-
-. Turbulence & Flow Separation (Kinematic Viscosity)
-
 <img width="1270" height="437" alt="Screenshot 2026-02-02 151530" src="https://github.com/user-attachments/assets/acdc9149-62c9-49bd-af67-d8d8a0fd33bc" />
-
-Observation: The Turbulent Kinematic Viscosity plot reveals the energy dissipation in the wake region.
-
-  High Values (Light Blue): Indicate regions of high turbulence mixing and potential flow separation.
-
-  Low Values (Dark Blue): Indicate laminar or attached turbulent flow (freestream).
-
-Critical Finding: A significant wake region is observed behind the second flap. The expansion of the high-viscosity zone suggests flow separation (stall) on the suction side of the steepest flap. This indicates that the current Angle of Attack (AoA) may be too aggressive for the current slot-gap configuration, leading to induced drag.
-
-Conclusion & Next Iteration Strategy
-Based on the visual data above, the current design generates high downforce but suffers from aerodynamic inefficiency due to separation.
-
-Planned Improvements for Iteration v2:
-
-Slot Gap Optimization: Adjust the gap and overlap parameters between the main plane and flaps to re-energize the boundary layer and delay separation.
-
-Angle of Attack (AoA) Reduction: Slightly reduce the angle of the final flap to attach the flow and improve the L/D (Lift-to-Drag) ratio.
-
-Mesh Refinement: Increase mesh density specifically in the wake region (seen in the blue plot) to capture the shear layer gradients more accurately.
-
-📉 Iteration v2: Gap & Overlap Sensitivity Study
-Objective: Following the baseline analysis (v1), adjustments were made to the Angle of Attack (AoA) and Slot Gaps to attempt flow re-attachment. Changes Made:
-
-Modified flap spacing (gap/overlap parameters).
-
-Adjusted global AoA.
-
-🔍 Analysis of Results
-
 <img width="1289" height="755" alt="Screenshot 2026-02-02 212143" src="https://github.com/user-attachments/assets/ea0a0eee-7577-449c-9df8-650f0f64546e" />
-
-Turbulent Kinetic Energy (TKE): As seen in the TKE plot above, the design exhibits massive flow separation initiating from the suction side of the main plane. The high-turbulence wake (green/yellow zone) completely engulfs the downstream flaps.
-
-Implication: The flaps are operating in "dirty" air (low energy wake) generated by the main plane, rendering them ineffective. The slot gaps are failing to energize the boundary layer because the flow has already detached upstream.
-
-Root Cause Diagnosis: The main plane's camber or incidence angle is too aggressive for the current Reynolds number, causing early separation before the flow even reaches the first slot gap.
-
-🛠️ Strategy for v3 (Final Optimization)
-To recover performance and attach the flow, the next iteration will focus on:
-
-Main Plane De-powering: Reducing the incidence angle of the main element to ensure clean flow arrives at the first flap.
-
-Nozzle Effect: Tightening the slot gap between the main plane and Flap 1 to accelerate the air (Venturi effect), injecting high-energy flow into the boundary layer.
